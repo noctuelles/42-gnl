@@ -5,38 +5,80 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/29 18:06:24 by plouvel           #+#    #+#             */
-/*   Updated: 2021/12/02 12:00:31 by plouvel          ###   ########.fr       */
+/*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
+/*   Updated: 2022/01/31 02:06:33 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
+# include <unistd.h>
 # include <stddef.h>
 
-/*		gnl_info structure.
- *
- *		line:			the dynamic string that'll be returnn.
- *		len:			the lenght to copy over line in the buffer.
- *		f_fullrd:		this flag is set to 1 if we read a '\n'.
- *		f_readd_err:	this flag is set if he read fails.
- *		f_malloc_err:	this flag is set if a malloc fails.
- */
+# define MAX_FD 1024
 
-typedef struct s_gnl_info
+typedef enum e_flags
 {
-	char	*line;
-	int		rded;
-	size_t	len;
-	int		f_fullrd;
-	int		f_read_err;
-	int		f_malloc_err;
-}				t_gnl_info;
+	INIT = 1U,
+	LINE_DONE = 1U << 1,
+	CAN_READ = 1U << 2
+}				t_flags;
 
-char	*strralloc(char *str, char *add, size_t add_len);
-size_t	ft_strlen(const char *str);
-int		get_cpy_len(const char *str, t_gnl_info *gnl_info);
+typedef struct s_gnl
+{
+	char	*buffer;
+	char	*buffer_addr;
+	char	*line;
+	char	*new_line;
+	char	tmp_char;
+	int		fd;
+	ssize_t	readed;
+	int		flags;
+}				t_gnl;
+
+void	proceed_data(t_gnl *gnl);
+char	*quit_gnl(t_gnl *gnl);
+char	*init_gnl(t_gnl *gnl, int fd);
+char	*ft_strjoin(char *s1, char *s2);
+
 char	*get_next_line(int fd);
+
+static inline ssize_t	read_fd(t_gnl *gnl)
+{
+	if (gnl->flags & LINE_DONE)
+		return (0);
+	if (gnl->flags & CAN_READ)
+	{
+		gnl->readed = read(gnl->fd, gnl->buffer, BUFFER_SIZE);
+		if (gnl->readed > 0)
+			gnl->buffer[gnl->readed] = '\0';
+	}
+	return (gnl->readed);
+}
+
+static inline size_t	ft_strlen(const char *s)
+{
+	size_t	len;
+
+	len = 0;
+	while (*s++ != '\0')
+		len++;
+	return (len);
+}
+
+static inline char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (unsigned char) c)
+			return ((char *) &s[i]);
+		i++;
+	}
+	return (NULL);
+}
 
 #endif

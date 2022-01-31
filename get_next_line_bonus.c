@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:09:50 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 14:51:48 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 15:19:48 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ static inline char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-void	proceed_data(t_gnl *gnl)
+static void fill_line(t_gnl *gnl)
 {
-	gnl->new_line = ft_strchr(gnl->buffer, '\n');
 	if (gnl->new_line)
 	{
 		gnl->tmp_char = gnl->new_line[1];
@@ -66,6 +65,18 @@ void	proceed_data(t_gnl *gnl)
 		gnl->line = ft_strjoin(gnl->line, gnl->buffer);
 		gnl->buffer = gnl->start_buffer_addr;
 		gnl->flags |= CAN_READ;
+	}
+}
+
+void	proceed_data(t_gnl *gnl)
+{
+	gnl->new_line = ft_strchr(gnl->buffer, '\n');
+	fill_line(gnl);
+	if (!gnl->line)
+	{
+		gnl->readed = 0;
+		gnl->flags &= ~(CAN_READ);
+		gnl->flags |= MALLOC_EXCEPTION;
 	}
 }
 

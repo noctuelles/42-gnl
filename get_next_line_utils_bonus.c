@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 23:00:47 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 14:52:07 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 15:25:10 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,14 @@ char	*init_gnl(t_gnl *gnl, int fd)
 		gnl->start_buffer_addr = gnl->buffer;
 		gnl->flags |= INIT;
 		gnl->flags |= CAN_READ;
+		gnl->flags &= ~(MALLOC_EXCEPTION);
 	}
 	gnl->line = (char *) malloc(sizeof(char));
 	if (!gnl->line)
+	{
+		free(gnl->buffer);
 		return (NULL);
+	}
 	gnl->line[0] = '\0';
 	return (gnl->line);
 }
@@ -73,8 +77,11 @@ char	*quit_gnl(t_gnl *gnl)
 	{
 		free(gnl->start_buffer_addr);
 		gnl->flags &= ~(INIT);
-		if (gnl->line[0] != '\0')
-			return (gnl->line);
+		if (!(gnl->flags & MALLOC_EXCEPTION))
+		{
+			if (gnl->line[0] != '\0')
+				return (gnl->line);
+		}
 		free(gnl->line);
 		return (NULL);
 	}

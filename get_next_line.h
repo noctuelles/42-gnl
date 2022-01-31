@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:37:34 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 15:19:47 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ typedef enum e_flags
 {
 	INIT = 1U,
 	LINE_DONE = 1U << 1,
-	CAN_READ = 1U << 2
+	CAN_READ = 1U << 2,
+	MALLOC_EXCEPTION = 1U << 3
 }				t_flags;
 
 typedef struct s_gnl

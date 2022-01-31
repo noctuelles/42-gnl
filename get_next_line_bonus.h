@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:06:33 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 02:24:58 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,48 +37,10 @@ typedef struct s_gnl
 	int		flags;
 }				t_gnl;
 
-void	proceed_data(t_gnl *gnl);
-char	*quit_gnl(t_gnl *gnl);
 char	*init_gnl(t_gnl *gnl, int fd);
+char	*quit_gnl(t_gnl *gnl);
 char	*ft_strjoin(char *s1, char *s2);
 
 char	*get_next_line(int fd);
-
-static inline ssize_t	read_fd(t_gnl *gnl)
-{
-	if (gnl->flags & LINE_DONE)
-		return (0);
-	if (gnl->flags & CAN_READ)
-	{
-		gnl->readed = read(gnl->fd, gnl->buffer, BUFFER_SIZE);
-		if (gnl->readed > 0)
-			gnl->buffer[gnl->readed] = '\0';
-	}
-	return (gnl->readed);
-}
-
-static inline size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (*s++ != '\0')
-		len++;
-	return (len);
-}
-
-static inline char	*ft_strchr(const char *s, int c)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (unsigned char) c)
-			return ((char *) &s[i]);
-		i++;
-	}
-	return (NULL);
-}
 
 #endif

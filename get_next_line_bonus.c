@@ -6,11 +6,12 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:09:50 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:23:28 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 02:35:06 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <unistd.h>
 
 static inline ssize_t	read_fd(t_gnl *gnl)
 {

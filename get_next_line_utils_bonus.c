@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 23:00:47 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:24:16 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 02:40:23 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*init_gnl(t_gnl *gnl, int fd)
 {
 	if (!gnl->flags & INIT)
 	{
-		if (fd < 0 || BUFFER_SIZE <= 0)
+		if (fd < 0 || fd > (MAX_FD - 1) || BUFFER_SIZE <= 0)
 			return (NULL);
 		gnl->buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!gnl->buffer)

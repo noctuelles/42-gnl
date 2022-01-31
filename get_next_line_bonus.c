@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:09:50 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:35:06 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 14:51:48 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	proceed_data(t_gnl *gnl)
 
 char	*get_next_line(int fd)
 {
-	static t_gnl	gnl[MAX_FD];
+	static t_gnl	gnl[OPEN_MAX];
 
 	if (!init_gnl(&gnl[fd], fd))
 		return (NULL);

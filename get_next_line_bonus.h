@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:37:55 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 14:51:28 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # include <sys/types.h>
-
-# define MAX_FD 1024
+# include <limits.h>
 
 typedef enum e_flags
 {

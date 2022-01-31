@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 23:00:47 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:40:23 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 14:52:07 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ char	*ft_strjoin(char *s1, char *s2)
 
 char	*init_gnl(t_gnl *gnl, int fd)
 {
-	if (!gnl->flags & INIT)
+	if (!(gnl->flags & INIT))
 	{
-		if (fd < 0 || fd > (MAX_FD - 1) || BUFFER_SIZE <= 0)
+		if (fd < 0 || fd > (OPEN_MAX - 1) || BUFFER_SIZE <= 0)
 			return (NULL);
 		gnl->buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!gnl->buffer)
@@ -73,7 +73,6 @@ char	*quit_gnl(t_gnl *gnl)
 	{
 		free(gnl->start_buffer_addr);
 		gnl->flags &= ~(INIT);
-		gnl->flags &= ~(CAN_READ);
 		if (gnl->line[0] != '\0')
 			return (gnl->line);
 		free(gnl->line);

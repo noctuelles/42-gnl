@@ -56,7 +56,7 @@ char	*init_gnl(t_gnl *gnl, int fd)
 		if (!gnl->buffer)
 			return (NULL);
 		gnl->fd = fd;
-		gnl->buffer_addr = gnl->buffer;
+		gnl->start_buffer_addr = gnl->buffer;
 		gnl->flags |= INIT;
 		gnl->flags |= CAN_READ;
 	}
@@ -71,7 +71,7 @@ char	*quit_gnl(t_gnl *gnl)
 {
 	if (gnl->readed <= 0)
 	{
-		free(gnl->buffer_addr);
+		free(gnl->start_buffer_addr);
 		gnl->flags &= ~(INIT);
 		gnl->flags &= ~(CAN_READ);
 		if (gnl->line[0] != '\0')

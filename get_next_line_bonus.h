@@ -6,14 +6,14 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:34:38 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 02:37:55 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
-# include <stddef.h>
+# include <sys/types.h>
 
 # define MAX_FD 1024
 
@@ -27,7 +27,7 @@ typedef enum e_flags
 typedef struct s_gnl
 {
 	char	*buffer;
-	char	*buffer_addr;
+	char	*start_buffer_addr;
 	char	*line;
 	char	*new_line;
 	char	tmp_char;

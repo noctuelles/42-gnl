@@ -51,7 +51,7 @@ void	proceed_data(t_gnl *gnl)
 		gnl->new_line[1] = gnl->tmp_char;
 		if (gnl->new_line[1] == '\0')
 		{
-			gnl->buffer = gnl->buffer_addr;
+			gnl->buffer = gnl->start_buffer_addr;
 			gnl->flags |= CAN_READ;
 		}
 		else
@@ -64,7 +64,7 @@ void	proceed_data(t_gnl *gnl)
 	else
 	{
 		gnl->line = ft_strjoin(gnl->line, gnl->buffer);
-		gnl->buffer = gnl->buffer_addr;
+		gnl->buffer = gnl->start_buffer_addr;
 		gnl->flags |= CAN_READ;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 02:21:53 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 02:25:41 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_gnl
 	ssize_t	readed;
 	int		flags;
 }				t_gnl;
-
 
 char	*init_gnl(t_gnl *gnl, int fd);
 char	*quit_gnl(t_gnl *gnl);

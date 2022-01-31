@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:09:50 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 15:19:48 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 15:38:24 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static inline char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-static void fill_line(t_gnl *gnl)
+static void	fill_line(t_gnl *gnl)
 {
 	if (gnl->new_line)
 	{
@@ -68,7 +68,7 @@ static void fill_line(t_gnl *gnl)
 	}
 }
 
-void	proceed_data(t_gnl *gnl)
+static void	proceed_data(t_gnl *gnl)
 {
 	gnl->new_line = ft_strchr(gnl->buffer, '\n');
 	fill_line(gnl);

@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 15:25:50 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 15:37:49 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,16 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # include <sys/types.h>
-# include <limits.h>
+
+# if defined (__APPLE__)
+#  include <limits.h>
+# elif __linux__
+#  define OPEN_MAX 1024
+# endif
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
 
 typedef enum e_flags
 {

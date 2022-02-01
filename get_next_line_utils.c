@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 23:00:47 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 15:25:10 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/01/31 16:47:55 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*init_gnl(t_gnl *gnl, int fd)
 	gnl->line = (char *) malloc(sizeof(char));
 	if (!gnl->line)
 	{
-		free(gnl->buffer);
+		free(gnl->start_buffer_addr);
 		return (NULL);
 	}
 	gnl->line[0] = '\0';

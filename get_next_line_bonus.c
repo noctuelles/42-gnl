@@ -6,11 +6,12 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:09:50 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 15:38:24 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/02/07 14:50:24 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
+#include <stdlib.h>
 #include <unistd.h>
 
 static inline ssize_t	read_fd(t_gnl *gnl)
@@ -40,46 +41,48 @@ static inline char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-static void	fill_line(t_gnl *gnl)
+static char	*init_gnl(t_gnl *gnl, int fd)
 {
-	if (gnl->new_line)
+	if (!(gnl->flags & INIT))
 	{
-		gnl->tmp_char = gnl->new_line[1];
-		gnl->new_line[1] = '\0';
-		gnl->line = ft_strjoin(gnl->line, gnl->buffer);
-		gnl->new_line[1] = gnl->tmp_char;
-		if (gnl->new_line[1] == '\0')
-		{
-			gnl->buffer = gnl->start_buffer_addr;
-			gnl->flags |= CAN_READ;
-		}
-		else
-		{
-			gnl->buffer = &gnl->new_line[1];
-			gnl->flags &= ~(CAN_READ);
-		}
-		gnl->flags |= LINE_DONE;
-	}
-	else
-	{
-		gnl->line = ft_strjoin(gnl->line, gnl->buffer);
-		gnl->buffer = gnl->start_buffer_addr;
+		if (fd < 0 || BUFFER_SIZE <= 0)
+			return (NULL);
+		gnl->buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!gnl->buffer)
+			return (NULL);
+		gnl->fd = fd;
+		gnl->start_buffer_addr = gnl->buffer;
+		gnl->flags |= INIT;
 		gnl->flags |= CAN_READ;
+		gnl->flags &= ~(MALLOC_EXCEPTION);
 	}
-}
-
-static void	proceed_data(t_gnl *gnl)
-{
-	gnl->new_line = ft_strchr(gnl->buffer, '\n');
-	fill_line(gnl);
+	gnl->line = (char *) malloc(sizeof(char));
 	if (!gnl->line)
 	{
-		gnl->readed = 0;
-		gnl->flags &= ~(CAN_READ);
-		gnl->flags |= MALLOC_EXCEPTION;
+		free(gnl->start_buffer_addr);
+		return (NULL);
 	}
+	gnl->line[0] = '\0';
+	return (gnl->line);
 }
 
+static char	*quit_gnl(t_gnl *gnl)
+{
+	if (gnl->readed <= 0)
+	{
+		free(gnl->start_buffer_addr);
+		gnl->flags &= ~(INIT);
+		if (!(gnl->flags & MALLOC_EXCEPTION))
+		{
+			if (gnl->line[0] != '\0')
+				return (gnl->line);
+		}
+		free(gnl->line);
+		return (NULL);
+	}
+	gnl->flags &= ~(LINE_DONE);
+	return (gnl->line);
+}
 char	*get_next_line(int fd)
 {
 	static t_gnl	gnl[OPEN_MAX];
@@ -87,6 +90,15 @@ char	*get_next_line(int fd)
 	if (!init_gnl(&gnl[fd], fd))
 		return (NULL);
 	while (read_fd(&gnl[fd]) > 0)
-		proceed_data(&gnl[fd]);
+	{
+		gnl[fd].new_line = ft_strchr(gnl[fd].buffer, '\n');
+		fill_line(&gnl[fd]);
+		if (!gnl[fd].line)
+		{
+			gnl[fd].readed = 0;
+			gnl[fd].flags &= ~(CAN_READ);
+			gnl[fd].flags |= MALLOC_EXCEPTION;
+		}
+	}
 	return (quit_gnl(&gnl[fd]));
 }

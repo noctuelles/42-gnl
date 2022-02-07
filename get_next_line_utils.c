@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 23:00:47 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 16:47:55 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/02/07 14:44:47 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static inline size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+static char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	size_t	i;
@@ -46,45 +46,30 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-char	*init_gnl(t_gnl *gnl, int fd)
+void	fill_line(t_gnl *gnl)
 {
-	if (!(gnl->flags & INIT))
+	if (gnl->new_line)
 	{
-		if (fd < 0 || BUFFER_SIZE <= 0)
-			return (NULL);
-		gnl->buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
-		if (!gnl->buffer)
-			return (NULL);
-		gnl->fd = fd;
-		gnl->start_buffer_addr = gnl->buffer;
-		gnl->flags |= INIT;
-		gnl->flags |= CAN_READ;
-		gnl->flags &= ~(MALLOC_EXCEPTION);
-	}
-	gnl->line = (char *) malloc(sizeof(char));
-	if (!gnl->line)
-	{
-		free(gnl->start_buffer_addr);
-		return (NULL);
-	}
-	gnl->line[0] = '\0';
-	return (gnl->line);
-}
-
-char	*quit_gnl(t_gnl *gnl)
-{
-	if (gnl->readed <= 0)
-	{
-		free(gnl->start_buffer_addr);
-		gnl->flags &= ~(INIT);
-		if (!(gnl->flags & MALLOC_EXCEPTION))
+		gnl->tmp_char = gnl->new_line[1];
+		gnl->new_line[1] = '\0';
+		gnl->line = ft_strjoin(gnl->line, gnl->buffer);
+		gnl->new_line[1] = gnl->tmp_char;
+		if (gnl->new_line[1] == '\0')
 		{
-			if (gnl->line[0] != '\0')
-				return (gnl->line);
+			gnl->buffer = gnl->start_buffer_addr;
+			gnl->flags |= CAN_READ;
 		}
-		free(gnl->line);
-		return (NULL);
+		else
+		{
+			gnl->buffer = &gnl->new_line[1];
+			gnl->flags &= ~(CAN_READ);
+		}
+		gnl->flags |= LINE_DONE;
 	}
-	gnl->flags &= ~(LINE_DONE);
-	return (gnl->line);
+	else
+	{
+		gnl->line = ft_strjoin(gnl->line, gnl->buffer);
+		gnl->buffer = gnl->start_buffer_addr;
+		gnl->flags |= CAN_READ;
+	}
 }

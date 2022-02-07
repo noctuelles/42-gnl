@@ -2,11 +2,10 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */ /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/01/31 15:38:06 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/02/07 14:42:51 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +38,11 @@ typedef struct s_gnl
 	int		flags;
 }				t_gnl;
 
-char	*init_gnl(t_gnl *gnl, int fd);
-char	*quit_gnl(t_gnl *gnl);
-char	*ft_strjoin(char *s1, char *s2);
+/* get_next_line_utils.c */
+
+void	fill_line(t_gnl *gnl);
+
+/* get_next_line.c */
 
 char	*get_next_line(int fd);
 

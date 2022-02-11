@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:09:50 by plouvel           #+#    #+#             */
-/*   Updated: 2022/02/07 14:52:56 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/02/11 18:27:30 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static char	*quit_gnl(t_gnl *gnl)
 	gnl->flags &= ~(LINE_DONE);
 	return (gnl->line);
 }
+
 char	*get_next_line(int fd)
 {
 	static t_gnl	gnl[OPEN_MAX];

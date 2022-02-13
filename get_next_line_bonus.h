@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:07:41 by plouvel           #+#    #+#             */
-/*   Updated: 2022/02/07 14:50:22 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/02/13 13:16:52 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
+
+# define GNL_FLUSH -255
 
 typedef enum e_flags
 {
@@ -48,6 +50,7 @@ typedef struct s_gnl
 /* get_next_line_utils_bonus.c */
 
 void	fill_line(t_gnl *gnl);
+char	*flush_gnl(t_gnl *gnl);
 
 /* get_next_line_bonus.c */
 

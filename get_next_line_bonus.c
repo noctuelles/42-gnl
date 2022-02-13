@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/30 20:09:50 by plouvel           #+#    #+#             */
-/*   Updated: 2022/02/11 18:27:30 by plouvel          ###   ########.fr       */
+/*   Created: 2022/02/13 13:20:12 by plouvel           #+#    #+#             */
+/*   Updated: 2022/02/13 13:20:14 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ static char	*quit_gnl(t_gnl *gnl)
 {
 	if (gnl->readed <= 0)
 	{
-		free(gnl->start_buffer_addr);
-		gnl->flags &= ~(INIT);
+		flush_gnl(gnl);
 		if (!(gnl->flags & MALLOC_EXCEPTION))
 		{
 			if (gnl->line[0] != '\0')
@@ -88,6 +87,8 @@ char	*get_next_line(int fd)
 {
 	static t_gnl	gnl[OPEN_MAX];
 
+	if (fd == GNL_FLUSH)
+		return (flush_gnl(&gnl[gnl->fd]));
 	if (!init_gnl(&gnl[fd], fd))
 		return (NULL);
 	while (read_fd(&gnl[fd]) > 0)

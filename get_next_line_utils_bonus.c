@@ -6,7 +6,7 @@
 /*   By: plouvel <plouvel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 23:00:47 by plouvel           #+#    #+#             */
-/*   Updated: 2022/02/07 14:52:55 by plouvel          ###   ########.fr       */
+/*   Updated: 2022/02/13 13:16:53 by plouvel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ static char	*ft_strjoin(char *s1, char *s2)
 	str[i] = '\0';
 	free(s1);
 	return (str);
+}
+
+char	*flush_gnl(t_gnl *gnl)
+{
+	free(gnl->start_buffer_addr);
+	gnl->start_buffer_addr = NULL;
+	gnl->buffer = NULL;
+	gnl->flags &= ~(INIT);
+	return (gnl->buffer);
 }
 
 void	fill_line(t_gnl *gnl)
